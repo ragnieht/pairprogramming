@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import people from "./people";
 
-function App() {
+export default function App() {
+  const [gender, setGender] = useState();
+
+  console.log("render app", { gender, people });
+  //reduce method to extract wanted Datas
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <ul>
+        {people
+          .filter((person) => !gender || person.gender === gender)
+          .map((person) => (
+            //TypeSafe
+            <div key={person?.id}>
+              <p>
+                {person?.name} {person?.gender}
+              </p>
+            </div>
+          ))}
+      </ul>
+
+      <button
+        onClick={() => {
+          setGender("male");
+        }}
+      >
+        Filter Male
+      </button>
+      <button
+        onClick={() => {
+          setGender("female");
+        }}
+      >
+        Filter Female
+      </button>
     </div>
   );
 }
-
-export default App;
